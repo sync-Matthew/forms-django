@@ -1,12 +1,16 @@
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
-from .schemas import READ_APPS_SCHEMA, READ_TABLES_SCHEMA, READ_FIELDS_SCHEMA
+from .schemas import (
+    APP_SCHEMA,
+    TABLE_SCHEMA,
+    FIELD_SCHEMA,
+)
 
 @extend_schema_serializer(
     examples=[
         OpenApiExample(
             name="Response Example",
-            value=READ_APPS_SCHEMA,
+            value=APP_SCHEMA,
             response_only=True,
         ),
     ],
@@ -20,7 +24,7 @@ class QuickbaseAppSerializer(serializers.Serializer):
     examples=[
         OpenApiExample(
             name="Response Example",
-            value=READ_TABLES_SCHEMA,
+            value=TABLE_SCHEMA,
             response_only=True,
         ),
     ],
@@ -35,7 +39,7 @@ class QuickbaseTableSerializer(serializers.Serializer):
     examples=[
         OpenApiExample(
             name="Response Example",
-            value=READ_FIELDS_SCHEMA,
+            value=FIELD_SCHEMA,
             response_only=True,
         ),
     ],

@@ -4,13 +4,18 @@ from .serializers import (
     QuickbaseTableSerializer,
     QuickbaseFieldSerializer,
 )
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
 from profiles.models import UserProfile
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+@extend_schema_view(
+    get=extend_schema(
+        responses={200: QuickbaseAppSerializer(many=True)}
+    )
+)
 class QuickbaseListAppsView(APIView):
     """
     View to list all of the users' Quickbase apps.
@@ -41,6 +46,12 @@ class QuickbaseListAppsView(APIView):
             return Response(data={"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@extend_schema_view(
+    get=extend_schema(
+        responses={200: QuickbaseTableSerializer(many=True)},
+        parameters=[OpenApiParameter(name="app", type=str, location=OpenApiParameter.QUERY, required=True, description="The ID of the Quickbase app to list tables for.")],
+    )
+)
 class QuickbaseListTablesView(APIView):
     """
     View to list all tables in a Quickbase app.
@@ -50,9 +61,6 @@ class QuickbaseListTablesView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = QuickbaseTableSerializer
 
-    @extend_schema(
-        parameters=[OpenApiParameter(name="app", type=str, location=OpenApiParameter.QUERY, required=True, description="The ID of the Quickbase app to list tables for.")],
-    )
     def get(self, request):
         """
         Return a list of all tables in the specified app.
@@ -79,6 +87,12 @@ class QuickbaseListTablesView(APIView):
             return Response(data={"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@extend_schema_view(
+    get=extend_schema(
+        responses={200: QuickbaseFieldSerializer(many=True)},
+        parameters=[OpenApiParameter(name="table", type=str, location=OpenApiParameter.QUERY, required=True, description="The ID of the Quickbase table to list fields for.")],
+    )
+)
 class QuickbaseListFieldsView(APIView):
     """
     View to list all fields in a Quickbase table.
@@ -88,9 +102,6 @@ class QuickbaseListFieldsView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = QuickbaseFieldSerializer
 
-    @extend_schema(
-        parameters=[OpenApiParameter(name="table", type=str, location=OpenApiParameter.QUERY, required=True, description="The ID of the Quickbase table to list fields for.")],
-    )
     def get(self, request):
         """
         Return a list of all fields in the specified table.
