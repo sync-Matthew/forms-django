@@ -29,4 +29,5 @@ urlpatterns = [
     path("api/schema/redoc/", CustomSpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     path("", include("profiles.urls")),
     path("", include("intake.urls")),
+    path("", include("quickbase.urls")),
 ]

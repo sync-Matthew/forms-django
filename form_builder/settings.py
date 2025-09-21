@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     # Local
     'profiles',
     'intake',
+    'quickbase',
 ]
 
 MIDDLEWARE = [
