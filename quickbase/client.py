@@ -62,10 +62,22 @@ class ExtendedJsonQuickbaseClient(JsonQuickbaseClient):
 
     def list_tables(self, app_id: str) -> List[dict[str, Any]]:
         """
-        Lists all Quickbase tables for the user associated with this client.
+        Lists all Quickbase tables for a Quickbase app.
         """
         return self._request(
             f"https://api.quickbase.com/v1/tables?appId={app_id}",
+            "get",
+            self.headers,
+            json=True,
+        )
+
+
+    def list_fields(self, table_id: str) -> List[dict[str, Any]]:
+        """
+        Lists all fields for a Quickbase table.
+        """
+        return self._request(
+            f"https://api.quickbase.com/v1/fields?tableId={table_id}",
             "get",
             self.headers,
             json=True,

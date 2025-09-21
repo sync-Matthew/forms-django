@@ -12,3 +12,15 @@ READ_TABLES_SCHEMA = [
         "description": "Table two as an example.",
     }
 ]
+
+READ_FIELDS_SCHEMA = [
+    {
+        "id": 1,
+        "label": "Field1",
+        "fieldType": "text",
+        "required": False,
+        "properties": {
+            "defaultValue": ""
+        },
+    }
+]
